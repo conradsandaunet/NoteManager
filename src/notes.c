@@ -89,10 +89,5 @@ void remove_note(NoteList *list, size_t index) {
 
 int search_notes(const NoteList *list, const char *query) {
 
-    if (list == NULL) {
-        return 0;
-    }
-
-    
-
+        
 }
