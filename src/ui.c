@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "ui.h"
+#include "util.h"
 
 void print_menu(void) {
 
@@ -91,4 +92,43 @@ void handle_remove_note(NoteList *list) {
 
     remove_note(list, index);
     printf("Note removed.\n");
+}
+
+void handle_create_note(NoteList *list) {
+
+    Note note;
+    char buffer[1024];
+
+    if (list == NULL) {
+        return;
+    }
+
+    printf("Title: ");
+    read_line(note.title, sizeof(note.title));
+
+    printf("Tags: ");
+    read_line(note.tags, sizeof(note.tags));
+
+    printf("Content: ");
+    read_line(buffer, sizeof(buffer));
+
+    note.content = strdup(buffer);
+    if (note.content == NULL) {
+        printf("Memory allocation failed.\n");
+        return;
+    }
+
+    strpcy(note.created_at, "manual");
+
+    note.filename[0] = '\0';
+
+    if (!add_note(list, &note)) {
+        printf("Failed to add note.\n");
+        free(note.content);
+        return;
+    }
+
+    free(note.content);
+
+    printf("Note added successfully.\n");
 }
