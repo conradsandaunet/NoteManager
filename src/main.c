@@ -25,7 +25,7 @@ int main () {
                 handle_list_notes(&list);
                 break;
             case 3:
-                printf("View note:\n");
+                handle_view_note(&list);
                 break;
             case 4:
                 handle_search_notes(&list);

@@ -11,7 +11,7 @@ void print_menu(void) {
     printf("1. Create note\n");
     printf("2. List notes\n");
     printf("3. View note\n");
-    printf("4. Search notes");
+    printf("4. Search notes\n");
     printf("5. Remove note\n");
     printf("0. Quit\n");
 }
@@ -51,12 +51,13 @@ void handle_search_notes(const NoteList *list) {
     char query[128];
     int matches;
 
-    printf("Search: \n");
-    if (fgets(query, sizeof(query), stdin) == NULL) {
+    printf("Search: ");
+    read_line(query, sizeof(query));
+    
+    if (query[0] == '\0') {
+        printf("Search query cannot be empty.\n");
         return;
     }
-
-    query[strcspn(query, "\n")] = '\0';
 
     matches = search_notes(list, query);
 
@@ -124,4 +125,34 @@ void handle_create_note(NoteList *list) {
     free(note.content);
 
     printf("Note added successfully.\n");
+}
+
+void handle_view_note(const NoteList *list) {
+
+    char buffer[32];
+    size_t index;
+
+    if (list == NULL || list->count == 0) {
+        printf("No notes available.\n");
+        return;
+    }
+
+    handle_list_notes(list);
+
+    printf("Enter note index to view: ");
+    read_line(buffer, sizeof(buffer));
+
+    if (buffer[0] == '\0') {
+        printf("Input cannot be empty.\n");
+        return;
+    }
+
+    index = (size_t)strtoul(buffer, NULL, 10);
+
+    if (index >= list->count) {
+        printf("Invalid note index.\n");
+        return;
+    }
+
+    view_note(list, index);
 }

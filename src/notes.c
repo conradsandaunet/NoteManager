@@ -123,7 +123,7 @@ int search_notes(const NoteList *list, const char *query)
     return matches;
 }
 
-void view_note(NoteList *list, size_t index) {
+void view_note(const NoteList *list, size_t index) {
 
     const Note *note;
 
@@ -153,9 +153,9 @@ void view_note(NoteList *list, size_t index) {
 
     if (note->content != NULL) {
         size_t len = strlen(note->content);
-        if (len > 0 && note->content[len -1] != '\n');
+        if (len > 0 && note->content[len -1] != '\n')
             printf("\n");
     }
 
     printf("\n");
-}
+}   
