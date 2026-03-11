@@ -4,18 +4,15 @@
 #include "notes.h"
 #include "util.h"
 
-int init_note_list(NoteList *list) {
+void init_note_list(NoteList *list) {
 
     if (list == NULL) {
-        return 0;
+        return;
     }
 
     list->items = NULL;
     list->count = 0;
     list->capacity = 0;
-    
-    return 1;
-
 }
 
 void free_note_list(NoteList *list) {

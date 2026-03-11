@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "util.h"
@@ -24,5 +25,12 @@ char *str_to_lower(const char *s) {
 
     result[len] = '\0';
     return result;
+}
+
+void read_line(char *buffer, size_t size) {
+
+    if (fgets(buffer, size, stdin) != NULL) {
+        buffer[strcspn(buffer, "\n")] = '\0';
+    }
 }
 
