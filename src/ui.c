@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
 #include "ui.h"
 #include "util.h"
 
@@ -73,7 +75,7 @@ void handle_remove_note(NoteList *list) {
         return;
     }
 
-    handle_list_notes(&list);
+    handle_list_notes(list);
 
     printf("Enter index to remove: ");
     if(scanf("%zu", &index) != 1) {
@@ -97,7 +99,6 @@ void handle_remove_note(NoteList *list) {
 void handle_create_note(NoteList *list) {
 
     Note note;
-    char buffer[1024];
 
     if (list == NULL) {
         return;
@@ -109,16 +110,8 @@ void handle_create_note(NoteList *list) {
     printf("Tags: ");
     read_line(note.tags, sizeof(note.tags));
 
-    printf("Content: ");
-    read_line(buffer, sizeof(buffer));
-
-    note.content = strdup(buffer);
-    if (note.content == NULL) {
-        printf("Memory allocation failed.\n");
-        return;
-    }
-
-    strpcy(note.created_at, "manual");
+    printf("Content (write [END] on a new line to finish): \n");
+    note.content = read_multiline_input();
 
     note.filename[0] = '\0';
 

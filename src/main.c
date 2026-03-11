@@ -3,6 +3,7 @@
 #include <string.h>
 #include "notes.h"
 #include "ui.h"
+#include "util.h"
 
 
 int main () {
@@ -18,22 +19,22 @@ int main () {
 
         switch(choice) {
             case 1:
-                printf("Create note");
+                handle_create_note(&list);
                 break;
             case 2:
                 handle_list_notes(&list);
                 break;
             case 3:
-                printf("View note:");
+                printf("View note:\n");
                 break;
             case 4:
-                printf("Search notes:");
+                printf("Search notes:\n");
                 break;
             case 5:
-                printf("Remove note:");
+                handle_remove_note(&list);
                 break;
             case 0:
-                printf("Quiting...");
+                printf("Quiting...\n");
                 break;
             default:
                 printf("Invalid choice.\n");

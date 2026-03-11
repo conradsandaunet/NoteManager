@@ -34,3 +34,47 @@ void read_line(char *buffer, size_t size) {
     }
 }
 
+char *read_multiline_input(void) {
+
+    char line[512];
+    char *result = NULL;
+    char *new_result;
+    size_t total_len = 0;
+    size_t line_len;
+
+    while (1) {
+        if (fgets(line, sizeof(line), stdin) == NULL)
+            break;
+
+        line[strcspn(line, "\n")] = '\0';
+
+        if (strcmp(line, "END") == 0)
+            break;
+
+        line_len = strlen(line);
+
+        new_result = realloc(result, total_len + line_len + 2);
+        if (new_result == NULL) {
+            free(result);
+            return NULL;
+        }
+
+        result = new_result;
+        memcpy(result + total_len, line, line_len);
+        total_len += line_len;
+
+        result[total_len] = '\n';
+        total_len++;
+        result[total_len] = '\0';
+    }
+
+    if (result == NULL) {
+        result = malloc(1);
+        if (result == NULL)
+            return NULL;
+        result[0] = '\0';
+    }
+
+    return result;
+}
+
