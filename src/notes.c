@@ -85,8 +85,8 @@ void remove_note(NoteList *list, size_t index) {
     list->count--;
 }
 
-int search_notes(const NoteList *list, const char *query) {
-
+int search_notes(const NoteList *list, const char *query)
+{
     size_t i;
     int matches = 0;
     char *query_lower;
@@ -96,21 +96,20 @@ int search_notes(const NoteList *list, const char *query) {
 
     if (*query == '\0')
         return 0;
-    
+
     query_lower = str_to_lower(query);
     if (query_lower == NULL)
         return 0;
-    
+
     for (i = 0; i < list->count; i++) {
         const Note *note = &list->items[i];
         char *title_lower = str_to_lower(note->title);
         char *tags_lower = str_to_lower(note->tags);
         char *content_lower = str_to_lower(note->content);
 
-        if ((title_lower && strstr(title_lower, query_lower)) ||
-            (tags_lower && strstr(tags_lower, query_lower)) ||
-            (content_lower && strstr(content_lower, query_lower))) {
-
+        if ((title_lower != NULL && strstr(title_lower, query_lower) != NULL) ||
+            (tags_lower != NULL && strstr(tags_lower, query_lower) != NULL) ||
+            (content_lower != NULL && strstr(content_lower, query_lower) != NULL)) {
             printf("[%zu] %s\n", i, note->title);
             matches++;
         }
@@ -122,4 +121,41 @@ int search_notes(const NoteList *list, const char *query) {
 
     free(query_lower);
     return matches;
+}
+
+void view_note(NoteList *list, size_t index) {
+
+    const Note *note;
+
+    if (list == NULL) {
+        printf("Note list is NULL.\n");
+        return;
+    }
+
+    if (index >= list->count) {
+        printf("Invalid note index.\n");
+        return;
+    }
+
+    note = &list->items[index];
+
+    printf("\n==== Note %zu ====\n", index);
+    printf("Title: %s\n", note->title);
+    printf("Tags: %s\n", note->tags);
+    printf("Created: %s\n", note->created_at);
+    printf("Filename: %s\n", note->filename);
+
+    printf("\nContent:\n");
+    if (note->content != NULL && note->content[0] != '\0')
+        printf("%s", note->content);
+    else
+        printf("(empty)\n");
+
+    if (note->content != NULL) {
+        size_t len = strlen(note->content);
+        if (len > 0 && note->content[len -1] != '\n');
+            printf("\n");
+    }
+
+    printf("\n");
 }

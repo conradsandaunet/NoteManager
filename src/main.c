@@ -28,7 +28,7 @@ int main () {
                 printf("View note:\n");
                 break;
             case 4:
-                printf("Search notes:\n");
+                handle_search_notes(&list);
                 break;
             case 5:
                 handle_remove_note(&list);

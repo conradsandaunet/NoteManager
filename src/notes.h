@@ -30,5 +30,6 @@ void free_note_list(NoteList *list);
 int add_note(NoteList *list, const Note *note);
 void remove_note(NoteList *list, size_t index);
 int search_notes(const NoteList * list, const char *query);
+void view_note(const NoteList *list, size_t index);
 
 #endif
