@@ -111,6 +111,8 @@ void handle_create_note(NoteList *list) {
     printf("Tags: ");
     read_line(note.tags, sizeof(note.tags));
 
+    generate_timestamp(note.created_at, sizeof(note.created_at));
+
     printf("Content (write [END] on a new line to finish): \n");
     note.content = read_multiline_input();
 

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "util.h"
 
 char *str_to_lower(const char *s) {
@@ -78,3 +79,19 @@ char *read_multiline_input(void) {
     return result;
 }
 
+void generate_timestamp(char *buffer, size_t size) {
+
+    time_t now;
+    struct tm *tm_info;
+
+    now = time(NULL);
+    tm_info = localtime(&now);
+
+    if (tm_info == NULL) {
+        if (size > 0)
+            buffer[0] = '\0';
+        return;
+    }
+
+    strftime(buffer, size, "%Y-%m-%d %H:%M:%S", tm_info);
+}
